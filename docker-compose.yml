@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql
+    container_name: bitclickdb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword
+      MYSQL_DATABASE: bitclick
+      MYSQL_USER: fazt
+      MYSQL_PASSWORD: faztpassword
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db/:/docker-entrypoint-initdb.d/
+    
