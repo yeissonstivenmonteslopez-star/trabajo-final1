@@ -1,6 +1,27 @@
 import { pool } from "../db.js";
 import { hashPassword } from "../utils/auth.js";
 
+export const getUsuarios = async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT * FROM usuarios");
+    return res.status(200).json(rows);
+  } catch (error) {
+    console.error("getUsuarios error:", error);
+    const isProduction = process.env.NODE_ENV === "production";
+    return res.status(500).json(
+      isProduction
+        ? { message: "Something goes wrong" }
+        : {
+            message: "Something goes wrong",
+            error: {
+              code: error?.code,
+              message: error?.message,
+            },
+          }
+    );
+  }
+};
+
 function validateRequiredString(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
